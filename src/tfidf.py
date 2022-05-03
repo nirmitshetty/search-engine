@@ -142,14 +142,17 @@ def cosine_similarity(keyword, vocabulary, tfidf, tfidf_normalized, news, k=5):
     return result
 
 
-# file = 'https://raw.githubusercontent.com/zayedrais/DocumentSearchEngine/master/data/newsgroups.json'
-# news = parseJSON(file)
-# news = cleanData(news)
-# news_lemmatized = lemmatizeWords(news['content'])
-# news = pd.concat([news, news_lemmatized], axis=1)
-# news.to_json(r'preprocessedData.json')
+#file = 'https://raw.githubusercontent.com/zayedrais/DocumentSearchEngine/master/data/newsgroups.json'
+#news = parseJSON(file)
+#print('finished parsing','*'*25)
+#news = cleanData(news)
+#print('finished cleaning','*'*25)
+#news_lemmatized = lemmatizeWords(news['content'])
+#print('finished lemmatization','*'*25)
+#news = pd.concat([news, news_lemmatized], axis=1)
+#news.to_json(r'preprocessedData.json')
 
 news = pd.read_json('preprocessedData.json')
 vocabulary, tfidf, tfidf_normalized = createTFIDF(news['lemmatized'])
 
-print(cosine_similarity('computer science', vocabulary, tfidf, tfidf_normalized, news, 10))
+print(cosine_similarity('windows', vocabulary, tfidf, tfidf_normalized, news, 10))
