@@ -7,9 +7,9 @@ import numpy as np
 sbert_model = SentenceTransformer('bert-base-nli-mean-tokens')
 
 def get_data():
-    df = pd.read_csv("/Users/ankitasinha/UCI_CLASS/Capstone Project/In-House-Search-Engine-main/data/csv_data/new_covid.csv")
-    df=df[['question','answer','source','country', 'link', 'encoded_questions']]
-    df['encoded_questions'] = df['encoded_questions'].astype(float)
+    df = pd.read_csv("/Users/ankitasinha/UCI_CLASS/Capstone Project/In-House-Search-Engine-main/data/csv_data/covid.csv")
+    df=df[['question','answer','source','country', 'link']]
+    # df['encoded_questions'] = df['encoded_questions'].astype(float)
     return df
 
 def get_sentence_embeding(sentences):
@@ -18,7 +18,7 @@ def get_sentence_embeding(sentences):
 
 def search_covid_dataset(question):
     df = get_data()
-    # df['encoded_questions'] = df['question'].apply(lambda x: get_sentence_embeding([x]))
+    df['encoded_questions'] = df['question'].apply(lambda x: get_sentence_embeding([x]))
     # df.to_csv('/Users/ankitasinha/UCI_CLASS/Capstone Project/In-House-Search-Engine-main/data/csv_data/new_covid.csv')
     similar_vector_values = []
 
