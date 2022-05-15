@@ -1,5 +1,7 @@
 import os
 from flask import Flask, jsonify, request, render_template
+from src.covid_faq import search_covid_dataset
+
 app = Flask(__name__)
 import utils
 import time
@@ -21,6 +23,12 @@ def gen_search_json():
 @app.route('/home', methods=['GET'])
 def render_html():
     return render_template('index.html')
+
+@app.route('/search', methods=['POST'])
+def search():
+    input_json = request.get_json()
+    question = input_json["question"]
+    ans = search_covid_dataset(question)
 
 if __name__== '__main__':
     app.run(debug=True)
