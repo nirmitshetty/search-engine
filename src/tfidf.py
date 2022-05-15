@@ -2,11 +2,7 @@
 
 import pandas as pd
 import numpy as np
-import sys
-import os 
 import re
-import operator
-import nltk 
 from nltk.tokenize import word_tokenize
 from nltk import pos_tag
 from nltk.corpus import stopwords
@@ -14,6 +10,7 @@ from nltk.stem import WordNetLemmatizer
 from collections import defaultdict
 from nltk.corpus import wordnet as wn
 from sklearn.feature_extraction.text import TfidfVectorizer
+import redis,json
 
 # Parse text data
 
@@ -110,6 +107,11 @@ def vector_keywords(tokens, vocabulary, tfidf):
 # Cosine similarity between documents
 
 def cosine_similarity(keyword, vocabulary, tfidf, tfidf_normalized, news, k=5):
+    if redis_client.exists(f"tfidf_{keyword}"):
+        print('fetched from cache')
+        return json.loads(redis_client.get(f"tfidf_{keyword}"))
+
+    print('fetching from api')
     result = pd.DataFrame()
     cosines = []
     df = pd.DataFrame(columns=['queries'])
@@ -138,7 +140,10 @@ def cosine_similarity(keyword, vocabulary, tfidf, tfidf_normalized, news, k=5):
         result.Content = result.Content.replace(to_replace ="(subject re |subject )", value = '', regex = True)
     for j, score in enumerate(cosines[-k:][::-1]):
         result.loc[j, 'Score'] = score
-        
+
+    
+    redis_client.set(f"tfidf_{keyword}",result.to_json())
+
     return result
 
 
@@ -154,5 +159,7 @@ def cosine_similarity(keyword, vocabulary, tfidf, tfidf_normalized, news, k=5):
 
 news = pd.read_json('preprocessedData.json')
 vocabulary, tfidf, tfidf_normalized = createTFIDF(news['lemmatized'])
+
+redis_client=redis.Redis(host='localhost',port=6379, db=0)
 
 print(cosine_similarity('windows', vocabulary, tfidf, tfidf_normalized, news, 10))

@@ -19,7 +19,7 @@ def gen_search_json(request):
     query = process_term(query)
     #print("process term", query)
     results = get_results(query.strip())
-    #print(results)
+    #print("get_results",results)
     resp = JsonResponse({"results":results[:10]})  # top 10 results
     resp.headers['Access-Control-Allow-Origin'] = '*'
     end_time = time.time()

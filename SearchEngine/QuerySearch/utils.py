@@ -1,16 +1,17 @@
 from enum import auto
+from functools import cache
 from .trie import *
 from .models import autocomplete
-import csv
-import sys
-import os
+import redis,json
+from datetime import timedelta
 
+redis_client=redis.Redis(host='localhost',port=6379, db=0)
+redis_client.flushdb()
 word_list = []
 
 full_name_root = Node()
 middle_name_root = Node()
 last_name_root = Node()
-
 
 def readDB():
     '''
@@ -83,19 +84,39 @@ def get_from_trie(root, query):
 
 def get_results(query):
     
-    full_name_result = get_from_trie(full_name_root, query)
-    middle_name_result = get_from_trie(middle_name_root, query)
-    last_name_result = get_from_trie(last_name_root, query)
-    final_result = full_name_result + middle_name_result + last_name_result
-    return convert_into_list_of_dict(final_result)
+    if redis_client.exists(f"autocomplete_{query}"):
+        print("fetched from cache")
+        final_result=json.loads(redis_client.get(f"autocomplete_{query}"))
+        
+    else:    
+        print("fetched from API")
+        full_name_result = get_from_trie(full_name_root, query)
+        #print("full name",full_name_result)
+        middle_name_result = get_from_trie(middle_name_root, query)
+        #print("middle name",middle_name_result)
+        last_name_result = get_from_trie(last_name_root, query)
+        #print("last name",last_name_root,last_name_result)
+        final_result = full_name_result + middle_name_result + last_name_result
+        final_result=convert_into_list_of_dict(final_result)
+
+        #print("*"*5,final_result)
+        redis_client.set(f"autocomplete_{query}",json.dumps(final_result))
+        #redis_client.expire(f"autocomplete_{query}",timedelta(seconds=30))
+    
+    redis_client.expire(f"autocomplete_{query}",timedelta(seconds=30))
+
+    return final_result
 
 
 def process_term(query):
+    
     # If search term consists if spaces then 
     name_list = query.split(' ')
     result = ""
     for name in name_list:
         result = result + name.lower()
     return result
+
+    return query.lower()
 
 readDB()
