@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="{% static 'jquery.min.js' %}"></script>
+  <script src="{% static 'index.js' %}"></script>
+</head>
+<body>
+  <h1>Zot Search Engine</h1>
+  <div>
+    <input type="text" id="query"/>
+    <button type="button" onclick="search()">Search</button>
+  </div>
+    {% for r in res %}
+      <h1>hiii</h1>
+      
+    {% endfor %}
+  <div>
+
+  </div>
+
+</body>
+</html>
