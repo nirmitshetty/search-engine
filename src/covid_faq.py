@@ -72,7 +72,7 @@ def get_time_stamp(question, ans):
   ids = ans[:, 2]
   video_ans = []
   videos = video_df[video_df['id'].isin(ids)]
-  print(videos)
+  # print(videos)
 
   for index, row in videos.iterrows():
       id = row['id']
@@ -81,9 +81,11 @@ def get_time_stamp(question, ans):
       video_split = predicted_transcript.splitlines()
       youtube_link = row['youtube_link']
       similar_vector_values = []
-      for i in range(0, len(video_split),2):
+      for i in range(0, len(video_split),4):
           time = video_split[i]
           sent = video_split[i+1]
+          if i+3 < len(video_split):
+             sent = sent + video_split[i+3]
           sent_dict[time] = sent
       transcript_df = pd.DataFrame(list(sent_dict.items()),columns = ['timestamp','sent'])
       transcript_df['encoded_transcript'] = transcript_df['sent'].apply(lambda x: get_sentence_embeding([x]))
@@ -105,6 +107,7 @@ def get_time_stamp(question, ans):
 if __name__ == '__main__':
     question = "What is a novel coronavirus?"
     text_ans = search_covid_text_dataset(question)
+    print("text ans " , text_ans)
     video_time = get_time_stamp(question, text_ans)
 
-    print(video_time)
+    print("video timestamps ", video_time)
