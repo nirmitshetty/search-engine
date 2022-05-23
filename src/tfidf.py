@@ -108,6 +108,7 @@ def vector_keywords(tokens, vocabulary, tfidf):
 
 def cosine_similarity(keyword, vocabulary, tfidf, tfidf_normalized, news, k=5):
     if redis_client.exists(f"tfidf_{keyword}"):
+
         print('fetched from cache')
         return json.loads(redis_client.get(f"tfidf_{keyword}"))
 
@@ -144,7 +145,7 @@ def cosine_similarity(keyword, vocabulary, tfidf, tfidf_normalized, news, k=5):
     
     redis_client.set(f"tfidf_{keyword}",result.to_json())
 
-    return result
+    return result.to_json()
 
 
 #file = 'https://raw.githubusercontent.com/zayedrais/DocumentSearchEngine/master/data/newsgroups.json'
