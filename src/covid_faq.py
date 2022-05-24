@@ -1,22 +1,20 @@
 import pandas as pd
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
-from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 import operator
 
 sbert_model = SentenceTransformer('bert-base-nli-mean-tokens')
 
-
 def get_text_data():
-    df = pd.read_csv("/Users/ankitasinha/UCI_CLASS/Capstone Project/In-House-Search-Engine-main/data/csv_data/covid.csv")
+    df = pd.read_csv("covid.csv")
     df.rename( columns={'Unnamed: 0':'id'}, inplace=True )
     df['encoded_questions'] = df['question'].apply(lambda x: get_sentence_embeding([x]))
     df=df[['id', 'question','answer','encoded_questions', 'source','country', 'link']]
     return df
 
 def get_video_data():
-    df = pd.read_csv("/Users/ankitasinha/UCI_CLASS/Capstone Project/In-House-Search-Engine-main/data/csv_data/video_data2.csv")
+    df = pd.read_csv("video_data2.csv")
     df=df[['id', 'Youtube link','Question','Transcript']]
     df.rename( columns={'Youtube link':'youtube_link'}, inplace=True )
     df['id'] = df['id'].astype(str)

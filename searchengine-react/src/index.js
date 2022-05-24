@@ -8,8 +8,8 @@ var searchResult={};
 
 function querySearch(query)
 {
-
-  return fetch('http://localhost:8000/querySearch/'+query)
+  var option=3;
+  return fetch('http://localhost:8000/querySearch/'+query.replace("?","").toLowerCase()+'/'+option)
           .then(response => response.json())
           .then(data => data);
 }
@@ -47,23 +47,24 @@ function Results({results})
 {
 
   console.log(results)
-  var indexArr=[];
 
+  var indexArr=[];
   if(Object.keys(results).length!=0)
   {
-    indexArr=Object.keys(results.index);
+    indexArr=Object.keys(results);
+  }
+  else {
+      return;
   }
 
   return(
     <>
       <table>
         <tbody>
-        <tr><td>Index</td><td>Subject</td><td>Content</td><td>Score</td></tr>
-
+        <tr><td>Index</td><td>Result/Timestamp</td><td>URL</td></tr>
         {indexArr.map(i=> (
-          <tr key={i}><td>{parseInt(i)+1}</td><td>{results.Subject[i]}</td><td>{results.Content[i]}</td><td>{results.Score[i]}</td></tr>
+          <tr key={i}><td>{parseInt(i)+1}</td><td>{results[i][0]}</td><td><a href={results[i][1]}>{results[i][1]}</a></td></tr>
         ))}
-
         </tbody>
       </table>
     </>
