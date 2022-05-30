@@ -75,6 +75,7 @@ def search_covid_text_dataset(question):
 
     for ans in pred_ans:
         ans[2]=int(ans[2])
+        ans.append("text")
 
     pred_ans=json.dumps(pred_ans)
 
@@ -126,7 +127,8 @@ def get_time_stamp(question, ans):
         dx = np.argmax(np.array(similar_vector_values))
 
         predicted_time = transcript_df.iloc[dx]['timestamp']
-        video_ans.append([predicted_time, youtube_link, id ])
+        #video_ans.append([predicted_time, youtube_link, id ])
+        video_ans.append([predicted_time, youtube_link, id, "video" ])
 
     video_ans=json.dumps(video_ans)
 

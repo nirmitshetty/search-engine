@@ -34,22 +34,14 @@ def gen_search_json(request):
 '''
 
     
-def querySearch(request,query,option):
+def querySearch(request,query):
     
     print(query)
     
-    #res=find_tfidf(query)
     res1=search_covid_text_dataset(query)
-    #print("Returned*"*10)
-    #print(type(res))
     print(res1)
 
-    if option==1:
-        return HttpResponse(res1)
-    else:
-        res2 = get_time_stamp(query, json.loads(res1))
-        print(res2)   
-        if option==2:
-            return HttpResponse(res2)
-        else:
-            return HttpResponse(json.dumps(json.loads(res1)+json.loads(res2)))
+    res2 = get_time_stamp(query, json.loads(res1))
+    print(res2)   
+
+    return HttpResponse(json.dumps(json.loads(res1)+json.loads(res2)))
