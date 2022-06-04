@@ -12,6 +12,6 @@ class covidAdmin(admin.ModelAdmin):
 
 @admin.register(video)
 class videoAdmin(admin.ModelAdmin):
-    list_display=['Youtube_link','VID','Question','Transcript']
+    list_display=['Youtube_link','VID','Question','Transcript','Description']
 
 # username admin pass admin

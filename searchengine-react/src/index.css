@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -7,25 +8,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-div{
-  margin:5px;
-}
-
-table,td{
-  border: 1px solid;
-  border-collapse: collapse;
-  margin:20px;
-  padding:5px;
-}
-
-input
-{
-  width:500px;
+#myBtnContainer{
+  margin-top: 10px;
 }
 
 .noshow {
@@ -77,4 +61,133 @@ input
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.autocomplete {
+  /*the container must be positioned relative:*/
+  position: relative;
+  display: inline-block;
+
+}
+input {
+  border: 1px solid transparent;
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-size: 16px;
+}
+input[type=text] {
+  background-color: #f1f1f1;
+}
+
+
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid #d4d4d4;
+  border-bottom: none;
+  border-top: none;
+  z-index: 99;
+  /*position the autocomplete items to be the same width as the container:*/
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+.autocomplete-items div {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #fff;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+/*when hovering an item:*/
+.autocomplete-items div:hover {
+  background-color: #e9e9e9;
+}
+
+/*when navigating through the items using the arrow keys:*/
+.autocomplete-active {
+  background-color: DodgerBlue !important;
+  color: #ffffff;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+section{
+  position:relative;
+  width:100%;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+section .main{
+  width:1000px;
+  margin:0 20px;
+  display: flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction: column;
+}
+
+table,td{
+  border: 1px solid;
+  border-collapse: collapse;
+  padding:5px;
+}
+
+table{
+  margin-top: 20px;
+}
+
+section .main .autocomplete{
+  position: relative;
+  width: 100%;
+  margin-top:20px;
+}
+
+section .main .autocomplete .searchBox{
+  border:1px solid #ccc;
+  border-radius:30px;
+  outline:none;
+  font-size: 16px;
+  width: 100%;
+  padding:13px;
+  padding-left: 45px;
+}
+
+section .main .autocomplete .icon{
+  position:absolute;
+  top:0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 20px;
+  align-items: center;
+  pointer-events: none;
+}
+
+section .main .autocomplete .icon img{
+  max-width: 100%;
+}
+
+.searchButton{
+  position:absolute;
+  margin:0 5px;
+  padding:12px 20px;
+  color:#555;
+  font-size: 14px;
+  border:none;
+  cursor: pointer;
+  border-radius: 4px;
+  border:1px solid transparent;
+  outline:none;
+}
+
+.searchButton:hover{
+  border:1px solid #ccc;
 }

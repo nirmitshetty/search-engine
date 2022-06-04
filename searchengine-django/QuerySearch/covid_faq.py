@@ -19,7 +19,8 @@ def get_text_data():
 
 def get_video_data():
     #df = pd.read_csv("static/video_data2.csv")
-    df=pd.DataFrame(list(video.objects.all().values('VID', 'Youtube_link','Question','Transcript')))
+    df=pd.DataFrame(list(video.objects.all().values('VID', 'Youtube_link','Question','Transcript','Description')))
+
     #df=df[['id', 'Youtube link','Question','Transcript']]
     df.rename( columns={'VID':'id','Youtube_link':'youtube_link'}, inplace=True )
     #df['id'] = df['id'].astype(str)
@@ -99,9 +100,10 @@ def get_time_stamp(question, ans):
     ids = ans[:, 2]
     video_ans = []
     videos = video_df[video_df['id'].isin(ids)]
-    # print(videos)
-
+ 
     for index, row in videos.iterrows():
+        
+        desc=(row['Description'])
         id = row['id']
         predicted_transcript = row['Transcript']
         sent_dict = {}
@@ -128,7 +130,7 @@ def get_time_stamp(question, ans):
 
         predicted_time = transcript_df.iloc[dx]['timestamp']
         #video_ans.append([predicted_time, youtube_link, id ])
-        video_ans.append([predicted_time, youtube_link, id, "video" ])
+        video_ans.append([predicted_time, youtube_link, id, "video", desc ])
 
     video_ans=json.dumps(video_ans)
 

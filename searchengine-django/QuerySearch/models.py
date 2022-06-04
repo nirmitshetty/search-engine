@@ -32,3 +32,4 @@ class video(models.Model):
     VID=models.CharField(max_length=30,null=True,blank=True)
     Question=models.CharField(max_length=30,null=True,blank=True)
     Transcript=models.CharField(max_length=30,null=True,blank=True)
+    Description=models.CharField(max_length=500,null=True,blank=True)
