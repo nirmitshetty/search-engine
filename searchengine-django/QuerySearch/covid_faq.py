@@ -5,6 +5,7 @@ import numpy as np
 import operator,redis,json
 from datetime import timedelta
 from QuerySearch.models import *
+from mechanize import Browser
 
 sbert_model = SentenceTransformer('bert-base-nli-mean-tokens')
 redis_client=redis.Redis(host='localhost',port=6379, db=0)
@@ -76,7 +77,7 @@ def search_covid_text_dataset(question):
 
     for ans in pred_ans:
         ans[2]=int(ans[2])
-        ans.append("text")
+        ans.extend(["text",get_title(ans[1])])
 
     pred_ans=json.dumps(pred_ans)
 
@@ -140,6 +141,14 @@ def get_time_stamp(question, ans):
 
     return video_ans
 
+def get_title(url):
+    br = Browser()
+    br.set_handle_robots(False)
+    br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
+    br.open(url)
+    print("fetching url ",url)
+    print(br.title())
+    return br.title()
 
 if __name__ == '__main__':
     print("main called")
