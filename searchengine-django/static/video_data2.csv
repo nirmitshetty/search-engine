@@ -1,4 +1,4 @@
-id,Youtube_link,VID,Question,Transcript,Description
+id,Youtube_link,VID,Question,Transcript,Description,Title
 1000,https://www.youtube.com/watch?v=UCE3RPkMV8M,0,What is a novel coronavirus?,"0:06
 So, the coronavirus are amongst us all the time. We have the so-called calm
 0:13
@@ -55,7 +55,7 @@ who had a exposure or potential exposure to the virus. For everyone else it's
 status quo, nothing would change other than the fact that you would need to
 2:42
 respond to those questions upon admission.
-","Infectious disease specialist, Dr. Dominik Mertz, explains the new Coronavirus and what this means for patients visiting our hospitals."
+","Infectious disease specialist, Dr. Dominik Mertz, explains the new Coronavirus and what this means for patients visiting our hospitals.",What is the Novel Coronavirus?
 1001,https://www.youtube.com/watch?v=Q_4fIkc2k6g,0,What is a novel coronavirus?,"0:01
 A new type of coronavirus has emerged from the city of Wuhan in China.
 0:06
@@ -122,7 +122,7 @@ With more cases being reported every day,
 the race is on to contain the outbreak.
 2:19
 And scientists are at the heart of the effort.
-","A new virus, originating from Wuhan in China, is quickly spreading across the country and around the world. In this video, we highlight the key things you need to know about the outbreak, and how science can help control it."
+","A new virus, originating from Wuhan in China, is quickly spreading across the country and around the world. In this video, we highlight the key things you need to know about the outbreak, and how science can help control it.",What you need to know about the novel coronavirus
 1002,https://www.youtube.com/watch?v=9FZxMFukUD8,1,"Why is the disease being called coronavirus disease 2019, COVID-19?","0:06
 in late 2009 teen health authorities in
 0:10
@@ -255,7 +255,7 @@ screen
 I a Q TV the place to be
 3:36
 you
-","In late 2019, health authorities in Wuhan, China reported a cluster of pneumonia cases of unknown origin. New cases began to rapidly spread and a novel (new) coronavirus was identified as the cause of the outbreak. The virus has been named SARS-CoV-2 and the disease it causes is known as coronavirus disease 2019 or COVID-19."
+","In late 2019, health authorities in Wuhan, China reported a cluster of pneumonia cases of unknown origin. New cases began to rapidly spread and a novel (new) coronavirus was identified as the cause of the outbreak. The virus has been named SARS-CoV-2 and the disease it causes is known as coronavirus disease 2019 or COVID-19.",Coronavirus Disease 2019 (COVID-19): A Brief History and Potential Exposure Risks
 1003,https://www.youtube.com/watch?v=oqFn6AHoJZQ,5,How does the virus spread?,"0:03
 the kovit 19 virus
 0:04
@@ -334,7 +334,7 @@ to protect yourself and others always
 follow
 1:28
 these six precautions
-","The COVID-19 virus spreads mainly between people in close contact with each other. It spreads most easily in crowded settings, closed spaces with poor ventilation or through prolonged contact with an infected person."
+","The COVID-19 virus spreads mainly between people in close contact with each other. It spreads most easily in crowded settings, closed spaces with poor ventilation or through prolonged contact with an infected person.",How the COVID-19 virus is transmitted
 1004,https://www.youtube.com/watch?v=RSu1who-Bk8,5,How does the virus spread?,"0:05
 germs are everywhere
 0:07
@@ -517,7 +517,7 @@ coronavirus and many other harmful germs
 from spreading
 3:30
 you
-",How do infections spread?
+",How do infections spread?,How do infections spread?
 1005,https://www.youtube.com/watch?v=FC4soCjxSOQ,13,How can I help protect myself?,"0:00
 What is CORONAVIRUS AND How to PROTECT YOURSELF
 0:03
@@ -600,7 +600,7 @@ If you notice any of these symptoms and conditions.
 Please contact your nearest professional healthcare setup.
 1:48
 Help spread this information to everyone.
-","To protect yourself from the virus: Try to avoid contact with people who display symptoms similar to those of pneumonia or the common cold, like coughing or a runny nose. Don't touch your eyes, nose, or mouth with unwashed hands. Wash your hands frequently with soap and water, and scrub for at least 20 seconds. Use alcohol-based hand sanitizer when possible. Avoid animals and animal markets."
+","To protect yourself from the virus: Try to avoid contact with people who display symptoms similar to those of pneumonia or the common cold, like coughing or a runny nose. Don't touch your eyes, nose, or mouth with unwashed hands. Wash your hands frequently with soap and water, and scrub for at least 20 seconds. Use alcohol-based hand sanitizer when possible. Avoid animals and animal markets.",What is CORONAVIRUS? AND How to PROTECT YOURSELF?
 1006,https://www.youtube.com/watch?v=21MIvkk7Imc,13,How can I help protect myself?,"0:01
 lots of people are worrying about
 0:04
@@ -773,7 +773,7 @@ the online NHS one-one-one coronavirus
 service and there'll be the ones who can
 3:17
 tell you what you should do next
-",
+",,Four ways to protect yourself from coronavirus - BBC News
 1007,https://www.youtube.com/watch?v=TPpoJGYlW54,31,What about imported animals or animal products?,"0:00
 It was New Years Eve, 2019 when health officials in China admitted they had a problem.
 0:04
@@ -980,7 +980,7 @@ we have an episode on our Netflix show called The Next Pandemic, explained.
 It talks about a coronavirus could spark the next pandemic and what the world’s experts are doing to stop it.
 8:29
 That’s on our Netflix show ‘Explained’. Check it out.
-",
+",,How wildlife trade is linked to coronavirus
 1008,https://www.youtube.com/watch?v=V3JmwWnHWBQ,38,What is the risk of getting COVID-19 on an airplane?,"0:00
 kovid 19 and air travel a new study out
 0:02
@@ -1161,7 +1161,7 @@ study and it gives us
 a real clue gio benitez abc news new
 2:56
 york
-",How risky is it to travel during COVID-19 pandemic?
+",How risky is it to travel during COVID-19 pandemic?,How Safe is Air Travel during a Pandemic?
 1009,https://www.youtube.com/watch?v=cqhuP6SU02M,38,What is the risk of getting COVID-19 on an airplane?,"0:00
 travel in general is an issue amidst
 0:01
@@ -1546,4 +1546,4 @@ james glasgow joe sevetz joss gister and
 michael chen
 5:40
 and of course our surgeon admiral sam
-",How Safe is Air Travel during a Pandemic?
+",How Safe is Air Travel during a Pandemic?,How Safe is Air Travel during a Pandemic?

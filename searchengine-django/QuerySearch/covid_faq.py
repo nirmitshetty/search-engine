@@ -3,16 +3,15 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 import operator,redis,json
-from datetime import timedelta
 from QuerySearch.models import *
-from mechanize import Browser
 
 sbert_model = SentenceTransformer('bert-base-nli-mean-tokens')
 redis_client=redis.Redis(host='localhost',port=6379, db=0)
 
 def get_text_data():
     #df = pd.read_csv("static/covid.csv")
-    df=pd.DataFrame(list(covid.objects.all().values('id', 'question','answer','source','country', 'link')))
+    df=pd.DataFrame(list(covid.objects.all().values('id', 'question','answer','name','source','category','link')))
+    
     #df.rename( columns={'Unnamed: 0':'id'}, inplace=True )
     df['encoded_questions'] = df['question'].apply(lambda x: get_sentence_embeding([x]))
     #df=df[['id', 'question','answer','encoded_questions', 'source','country', 'link']]
@@ -20,7 +19,7 @@ def get_text_data():
 
 def get_video_data():
     #df = pd.read_csv("static/video_data2.csv")
-    df=pd.DataFrame(list(video.objects.all().values('VID', 'Youtube_link','Question','Transcript','Description')))
+    df=pd.DataFrame(list(video.objects.all().values('VID', 'Youtube_link','Question','Transcript','Description','Title')))
 
     #df=df[['id', 'Youtube link','Question','Transcript']]
     df.rename( columns={'VID':'id','Youtube_link':'youtube_link'}, inplace=True )
@@ -37,11 +36,13 @@ def get_context_values(data):
             context = df.iloc[key]['answer']
             link = df.iloc[key]['link']
             id =  df.iloc[key]['id']
-            first_array = []
-            first_array.append(context)
-            first_array.append(link)
-            first_array.append(id)
-            predicted_context.append(first_array)
+            #print(df.iloc[key]['category'])
+            if df.iloc[key]['category']:
+                title= "{} | {} | {}".format(df.iloc[key]['name'],df.iloc[key]['source'],df.iloc[key]['category'])
+            else:
+                title= "{} | {}".format(df.iloc[key]['name'],df.iloc[key]['source'])
+
+            predicted_context.append([context,link,id,title])
             i += 1
 
     return predicted_context
@@ -60,6 +61,7 @@ def search_covid_text_dataset(question):
         return redis_client.get(f"bert_text_{question}")
 
     df = get_text_data()
+    
     similar_vector_values = []
     similar_vector = {}
     query = question
@@ -71,13 +73,13 @@ def search_covid_text_dataset(question):
         similar_vector[index] = np.sum(cosine_similarity(ans, query_vectors))
 
     # print(similar_vector_values)
-    dx = np.argmax(np.array(similar_vector_values))
+    #dx = np.argmax(np.array(similar_vector_values))
     sorted_d = dict(sorted(similar_vector.items(), key=operator.itemgetter(1), reverse=True))
     pred_ans = get_context_values(sorted_d)
-
+    
     for ans in pred_ans:
         ans[2]=int(ans[2])
-        ans.extend(["text",get_title(ans[1])])
+        ans.append("text")
 
     pred_ans=json.dumps(pred_ans)
 
@@ -104,7 +106,8 @@ def get_time_stamp(question, ans):
  
     for index, row in videos.iterrows():
         
-        desc=(row['Description'])
+        desc=row['Description']
+        title=row['Title']
         id = row['id']
         predicted_transcript = row['Transcript']
         sent_dict = {}
@@ -131,7 +134,7 @@ def get_time_stamp(question, ans):
 
         predicted_time = transcript_df.iloc[dx]['timestamp']
         #video_ans.append([predicted_time, youtube_link, id ])
-        video_ans.append([predicted_time, youtube_link, id, "video", desc ])
+        video_ans.append([predicted_time, youtube_link, title, desc ,"video" ])
 
     video_ans=json.dumps(video_ans)
 
@@ -141,19 +144,10 @@ def get_time_stamp(question, ans):
 
     return video_ans
 
-def get_title(url):
-    br = Browser()
-    br.set_handle_robots(False)
-    br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
-    br.open(url)
-    print("fetching url ",url)
-    print(br.title())
-    return br.title()
-
 if __name__ == '__main__':
     print("main called")
     question = "What is a novel coronavirus?"
     text_ans = search_covid_text_dataset(question)
-    print("text ans " , text_ans)
+    #print("text ans " , text_ans)
     video_time = get_time_stamp(question, text_ans)
-    print("video timestamps ", video_time)
+    #print("video timestamps ", video_time)

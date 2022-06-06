@@ -6,6 +6,8 @@ import './index.css';
 const root = ReactDOM.createRoot(document.getElementById("root"));
 var searchResult={};
 
+var startTime, endTime;
+
 function SearchBar()
 {
   const [status,setStatus]=useState(0);
@@ -18,7 +20,6 @@ function SearchBar()
 
               autocomplete(document.getElementById('query'),data);
             });
-
 }, [])
 
   return (
@@ -32,7 +33,10 @@ function SearchBar()
           <input type="text" className="searchBox" id="query" placeholder="type your query" />
           <button className="searchButton" type="button" id="searchBtn" onClick={()=>
           {
+            start();
             var query=document.getElementById('query').value;
+            if(query=="")
+              return;
             var loader=document.getElementById('loading');
             loader.className="loader";
             console.log('initiating hit');
@@ -82,8 +86,7 @@ function Filters()
 
 function Results({results})
 {
-  console.log(results)
-
+  //console.log(results)
   var indexArr=[];
   if(Object.keys(results).length!=0)
   {
@@ -96,47 +99,49 @@ function Results({results})
   return(
     <>
       <Filters/>
-      <ResultsHeader/>
       <table>
         <tbody>
-          <tr><td>Result</td><td>URL</td></tr>
-          {indexArr.map(i=> ( results[i][3]=="text" ? <ResultRow result={results[i]} index={i}/> : <ResultRow result={results[i]} index={i}/>))}
+          <tr ><td ><p className="resultHeading">Displaying results for <span className="highlight">&nbsp;{document.getElementById('query').value}&nbsp;</span> ({end()} seconds)</p></td></tr>
+          {indexArr.map(i=> <ResultRow result={results[i]} index={i}/>)}
         </tbody>
       </table>
     </>
   )
 }
 
-function ResultsHeader()
-{
-  var query=document.getElementById('query').value;
-  return
-  (
-    <h4>Displaying results for "{query}"</h4>
-  );
-}
-
 function ResultRow(props)
 {
   var result=props.result;
   var index=props.index;
-  if(result[3]=="text")
+  if(result[4]=="text")
   {
     return(
       <tr className="text" key={index}>
-        <td>{result[0]}</td>
-        <td><a href={result[1]} target="_blank">{result[1]}</a></td>
+        <td>
+          <p className='title'><a href={result[1]} target="_blank">{result[3]}</a></p>
+          <p className='url'><a href={result[1]} target="_blank">{result[1]}</a></p>
+          <p className='answer'>{result[0]}</p>
+        </td>
       </tr>);
   }
   else
   {
     var id=result[1].split("=")[1];
     var timestamp=result[0].split(":");
+    timestamp=parseInt(timestamp[0])*60+parseInt(timestamp[1]);
+    var embed=result[1].replace("watch?v=","embed/")
 
     return(
       <tr className="video" key={index}>
-        <td>{result[4]}</td>
-        <td><a href={result[1]+"&t="+timestamp[0]+"m"+timestamp[1]+"s"} target="_blank"><img src={"http://img.youtube.com/vi/"+id+"/default.jpg"} alt="YT video"/></a></td>
+        <td>
+          <div className="videoContainer">
+            <div><iframe src={embed+"?start="+timestamp} allowFullScreen="allowFullScreen" frameBorder="0"/></div>
+            <div className="videoText">
+              <p className='title'><a href={result[1]+"&start="+timestamp} target="_blank">{result[2]}</a></p>
+              <p className='answer'>{result[3]}</p>
+            </div>
+          </div>
+        </td>
       </tr>);
   }
 }
@@ -279,6 +284,20 @@ function autocomplete(inp,arr) {
   });
 }
 
+function start() {
+  startTime = new Date();
+};
+
+function end() {
+  endTime = new Date();
+  var timeDiff = endTime - startTime; //in ms
+  // strip the ms
+  timeDiff /= 1000;
+
+  // get seconds
+  //var seconds = Math.round(timeDiff);
+  return timeDiff;
+}
 
 root.render(
     <SearchBar />

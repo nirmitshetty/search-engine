@@ -134,11 +134,7 @@ section .main{
   flex-direction: column;
 }
 
-table,td{
-  border: 1px solid;
-  border-collapse: collapse;
-  padding:5px;
-}
+
 
 table{
   margin: 20px 0px;
@@ -181,7 +177,7 @@ section .main .autocomplete .icon img{
   margin:0 5px;
   padding:12px 20px;
   color:#555;
-
+  font-size:16px;
   border:none;
   cursor: pointer;
   border-radius: 4px;
@@ -191,4 +187,68 @@ section .main .autocomplete .icon img{
 
 .searchButton:hover{
   border:1px solid #ccc;
+}
+
+a{
+  text-decoration: none;
+}
+
+.title {
+  color:blue;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.title a:visited {
+  color:#00008B;
+  }
+
+.title a:hover{
+  text-decoration: underline;
+}
+
+.url {
+  color:#008000;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.url a:visited {
+  color:#008000;
+}
+
+.answer{
+  font-size:14px;
+  margin-bottom: 20px;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.video{
+  margin: 10px 0px;
+}
+
+.resultHeading{
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.highlight{
+  background-color: #D3D3D3;
+}
+
+.videoContainer{
+  display:flex;
+  margin-top: 5px;
+  margin-bottom: 20px;
+
+}
+
+iframe{
+  width:420px;
+  height:250px;
+}
+
+.videoText {
+  margin-left: 10px;
 }
