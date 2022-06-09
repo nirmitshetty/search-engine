@@ -11,7 +11,7 @@ def querySearch(request,query):
     res1=search_covid_text_dataset(query)
     #print(res1)
     
-    res2 = get_time_stamp(query, json.loads(res1))
+    res2 = get_time_stamp(query)
     #print(res2)
     print("returned")   
 

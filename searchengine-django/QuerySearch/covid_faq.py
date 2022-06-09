@@ -23,8 +23,8 @@ def get_video_data():
     #df=pd.DataFrame(list(video.objects.all().values('VID', 'Youtube_link','Question','Transcript','Description','Title')))
     #df.rename( columns={'VID':'id','Youtube_link':'youtube_link'}, inplace=True )
 
-    unpickled_data = pd.read_pickle("static/final_video_pickle.pkl")
-    df=unpickled_data[['id', 'Youtube link','Question','Transcript', 'encoded_questions']]
+    unpickled_data = pd.read_pickle("static/final_video_pickle_ankita.pkl")
+    df=unpickled_data[['id', 'Youtube link','Question','Transcript', 'encoded_questions','Description', 'Title']]
     df.rename( columns={'Youtube link':'youtube_link'}, inplace=True )
     df['id'] = df['id'].astype(str)
     return df
@@ -78,7 +78,7 @@ def search_covid_text_dataset(question):
     pred_ans = get_context_values(sorted_d)
     
     for ans in pred_ans:
-        #ans[2]=int(ans[2])
+        ans[2]=int(ans[2])
         ans.append("text")
 
     pred_ans=json.dumps(pred_ans)
@@ -97,8 +97,10 @@ def get_transcript_values(data):
         if i < 3:
             context = df.iloc[key]['Transcript']
             link = df.iloc[key]['youtube_link']
-            id = df.iloc[key]['id']
-            predicted_context.append([context, link, id])
+            desc = df.iloc[key]['Description']
+            title = df.iloc[key]['Title']
+           
+            predicted_context.append([context, link, title, desc])
             i += 1
 
     return predicted_context
@@ -114,7 +116,6 @@ def get_transcripts_stamp(question):
         similar_vector_values.append(np.sum(cosine_similarity(ans,query_vectors)))
         similar_vector[index]=np.sum(cosine_similarity(ans,query_vectors))
 
-    dx = np.argmax(np.array(similar_vector_values))
     sorted_d = dict( sorted(similar_vector.items(), key=operator.itemgetter(1),reverse=True))
     ans=get_transcript_values(sorted_d)
     return ans
@@ -130,11 +131,14 @@ def get_time_stamp(question):
     videos = get_transcripts_stamp(question)
     video_ans = []
     for index, value in enumerate(videos):
+        
         predicted_transcript = value[0]
         sent_dict = {}
 
         video_split = predicted_transcript.splitlines()
         youtube_link = value[1]
+        title=value[2]
+        desc=value[3]
         similar_vector_values = []
         for i in range(0, len(video_split),4):
             time = video_split[i]
@@ -155,7 +159,7 @@ def get_time_stamp(question):
         dx = np.argmax(np.array(similar_vector_values))
 
         predicted_time = transcript_df.iloc[dx]['timestamp']
-        video_ans.append([predicted_time, youtube_link, value[2] ])
+        video_ans.append([predicted_time, youtube_link,title,desc])
 
     video_ans=json.dumps(video_ans)
 
@@ -169,8 +173,8 @@ def get_time_stamp(question):
 if __name__ == '__main__':
     print("main called")
     question = "What is a novel coronavirus?"
-    text_ans = search_covid_text_dataset(question)
+    #text_ans = search_covid_text_dataset(question)
     
-    print("text ans " , text_ans)
-    #video_time = get_time_stamp(question, text_ans)
-    #print("video timestamps ", video_time)
+    #print("text ans " , text_ans)
+    video_time = get_time_stamp(question)
+    print("video timestamps ", video_time)

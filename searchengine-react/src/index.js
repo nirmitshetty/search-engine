@@ -118,9 +118,11 @@ function ResultRow(props)
     return(
       <tr className="text" key={index}>
         <td>
-          <p className='title'><a href={result[1]} target="_blank">{result[3]}</a></p>
-          <p className='url'><a href={result[1]} target="_blank">{result[1]}</a></p>
-          <p className='answer'>{result[0]}</p>
+
+            <p className='title'><a href={result[1]} target="_blank">{result[3]}</a></p>
+            <p className='url'><a href={result[1]} target="_blank">{result[1]}</a></p>
+            <p className='answer textAnswer'>{result[0]}</p>
+
         </td>
       </tr>);
   }
