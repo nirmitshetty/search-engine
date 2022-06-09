@@ -10,7 +10,7 @@ sbert_model = SentenceTransformer('bert-base-nli-mean-tokens')
 def get_text_data():
     unpickled_data = pd.read_pickle("final_pickle.pkl")
     #print(unpickled_data)
-    df=unpickled_data[['id','questionText','encoded_questions','answerText','sourceUrl']]
+    df=unpickled_data[['id','questionText','encoded_questions','answerText','sourceUrl','title']]
     return df
 
 
