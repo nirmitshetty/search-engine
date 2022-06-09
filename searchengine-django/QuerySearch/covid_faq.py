@@ -10,20 +10,23 @@ redis_client=redis.Redis(host='localhost',port=6379, db=0)
 
 def get_text_data():
     #df = pd.read_csv("static/covid.csv")
-    df=pd.DataFrame(list(covid.objects.all().values('id', 'question','answer','name','source','category','link')))
+    #df=pd.DataFrame(list(covid.objects.all().values('id', 'question','answer','name','source','category','link')))
     
-    #df.rename( columns={'Unnamed: 0':'id'}, inplace=True )
-    df['encoded_questions'] = df['question'].apply(lambda x: get_sentence_embeding([x]))
-    #df=df[['id', 'question','answer','encoded_questions', 'source','country', 'link']]
+    unpickled_data = pd.read_pickle("static/final_pickle.pkl")
+    #print(unpickled_data)
+    df=unpickled_data[['id','questionText','encoded_questions','answerText','sourceUrl']]
     return df
+
 
 def get_video_data():
     #df = pd.read_csv("static/video_data2.csv")
-    df=pd.DataFrame(list(video.objects.all().values('VID', 'Youtube_link','Question','Transcript','Description','Title')))
+    #df=pd.DataFrame(list(video.objects.all().values('VID', 'Youtube_link','Question','Transcript','Description','Title')))
+    #df.rename( columns={'VID':'id','Youtube_link':'youtube_link'}, inplace=True )
 
-    #df=df[['id', 'Youtube link','Question','Transcript']]
-    df.rename( columns={'VID':'id','Youtube_link':'youtube_link'}, inplace=True )
-    #df['id'] = df['id'].astype(str)
+    unpickled_data = pd.read_pickle("static/final_video_pickle.pkl")
+    df=unpickled_data[['id', 'Youtube link','Question','Transcript', 'encoded_questions']]
+    df.rename( columns={'Youtube link':'youtube_link'}, inplace=True )
+    df['id'] = df['id'].astype(str)
     return df
 
 
@@ -33,14 +36,14 @@ def get_context_values(data):
     i = 1
     for key, value in data.items():
         if i < 6:
-            context = df.iloc[key]['answer']
-            link = df.iloc[key]['link']
+            context = df.iloc[key]['answerText']
+            link = df.iloc[key]['sourceUrl']
             id =  df.iloc[key]['id']
             #print(df.iloc[key]['category'])
             if df.iloc[key]['category']:
-                title= "{} | {} | {}".format(df.iloc[key]['name'],df.iloc[key]['source'],df.iloc[key]['category'])
+                title= "{} | {} | {}".format(df.iloc[key]['name'], df.iloc[key]['source'], df.iloc[key]['category'])
             else:
-                title= "{} | {}".format(df.iloc[key]['name'],df.iloc[key]['source'])
+                title= "{} | {}".format(df.iloc[key]['name'], df.iloc[key]['source'])
 
             predicted_context.append([context,link,id,title])
             i += 1
