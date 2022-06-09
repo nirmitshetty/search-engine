@@ -15,8 +15,8 @@ def get_text_data():
 
 
 def get_video_data():
-    unpickled_data = pd.read_pickle("/Users/ankitasinha/UCI_CLASS/Capstone Project/In-House-Search-Engine/src/final_video_pickle.pkl")
-    df=unpickled_data[['id', 'Youtube link','Question','Transcript', 'encoded_questions']]
+    unpickled_data = pd.read_pickle("/Users/ankitasinha/UCI_CLASS/Capstone Project/In-House-Search-Engine/src/final_video_pickle_ankita.pkl")
+    df=unpickled_data[['id', 'Youtube link','Question','Transcript', 'encoded_questions', 'Description', 'Title']]
     df.rename( columns={'Youtube link':'youtube_link'}, inplace=True )
     df['id'] = df['id'].astype(str)
     return df
@@ -76,11 +76,13 @@ def get_transcript_values(data):
         if i < 3:
             context = df.iloc[key]['Transcript']
             link = df.iloc[key]['youtube_link']
-            id = df.iloc[key]['id']
+            desc = df.iloc[key]['Description']
+            title = df.iloc[key]['Title']
             first_array = []
             first_array.append(context)
             first_array.append(link)
-            first_array.append(id)
+            first_array.append(desc)
+            first_array.append(title)
             predicted_context.append(first_array)
             first_array = []
             i += 1
@@ -132,13 +134,13 @@ def get_time_stamp(question):
       dx = np.argmax(np.array(similar_vector_values))
 
       predicted_time = transcript_df.iloc[dx]['timestamp']
-      video_ans.append([predicted_time, youtube_link, value[2] ])
+      video_ans.append([predicted_time, youtube_link, value[2], value[3] ])
 
   return video_ans
 
 
 if __name__ == '__main__':
-    question = "How long is the incubation period for covid-19?"
+    question = "What is covid-19?"
     text_ans = search_covid_text_dataset(question)
     print("text ans " , text_ans)
     video_time = get_time_stamp(question)
