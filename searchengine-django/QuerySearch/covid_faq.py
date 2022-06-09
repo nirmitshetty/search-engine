@@ -3,8 +3,8 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 import operator,redis,json
-from QuerySearch.models import *
 
+redis
 sbert_model = SentenceTransformer('bert-base-nli-mean-tokens')
 redis_client=redis.Redis(host='localhost',port=6379, db=0)
 
@@ -14,7 +14,7 @@ def get_text_data():
     
     unpickled_data = pd.read_pickle("static/final_pickle.pkl")
     #print(unpickled_data)
-    df=unpickled_data[['id','questionText','encoded_questions','answerText','sourceUrl']]
+    df=unpickled_data[['id','questionText','encoded_questions','answerText','sourceUrl', 'title']]
     return df
 
 
@@ -33,7 +33,7 @@ def get_video_data():
 def get_sentence_embeding(sentences):
     preprocessed_text = sbert_model.encode(sentences)
     return preprocessed_text
-    
+
 
 def get_context_values(data):
     df = get_text_data()
@@ -44,11 +44,7 @@ def get_context_values(data):
             context = df.iloc[key]['answerText']
             link = df.iloc[key]['sourceUrl']
             id =  df.iloc[key]['id']
-            #print(df.iloc[key]['category'])
-            if df.iloc[key]['category']:
-                title= "{} | {} | {}".format(df.iloc[key]['name'], df.iloc[key]['source'], df.iloc[key]['category'])
-            else:
-                title= "{} | {}".format(df.iloc[key]['name'], df.iloc[key]['source'])
+            title= df.iloc[key]['title']
 
             predicted_context.append([context,link,id,title])
             i += 1
@@ -82,7 +78,7 @@ def search_covid_text_dataset(question):
     pred_ans = get_context_values(sorted_d)
     
     for ans in pred_ans:
-        ans[2]=int(ans[2])
+        #ans[2]=int(ans[2])
         ans.append("text")
 
     pred_ans=json.dumps(pred_ans)
@@ -174,6 +170,7 @@ if __name__ == '__main__':
     print("main called")
     question = "What is a novel coronavirus?"
     text_ans = search_covid_text_dataset(question)
-    #print("text ans " , text_ans)
-    video_time = get_time_stamp(question, text_ans)
+    
+    print("text ans " , text_ans)
+    #video_time = get_time_stamp(question, text_ans)
     #print("video timestamps ", video_time)

@@ -2,7 +2,7 @@
 from django.http import HttpResponse
 import json
 from .covid_faq import *
-
+from QuerySearch.models import *
     
 def querySearch(request,query):
     
